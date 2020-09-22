@@ -1,0 +1,38 @@
+{
+    "name": "jlorente/laravel-payu",
+    "description": "Laravel >=5.7 integration for the PayU PHP SDK package.",
+    "keywords": [
+        "php",
+        "jlorente",
+        "laravel",
+        "payu"
+    ],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "José Lorente",
+            "email": "jose.lorente.martin@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "illuminate/support": ">=5.7",
+        "jlorente/payu-php-sdk": "^1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jlorente\\Laravel\\PayU\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jlorente\\Laravel\\PayU\\PayUServiceProvider"
+            ],
+            "aliases": {
+                "PayU": "Jlorente\\Laravel\\PayU\\Facades\\PayU"
+            }
+        }
+    },
+    "minimum-stability": "stable"
+}
