@@ -20,7 +20,8 @@
 namespace Jlorente\Laravel\PayU\Models;
 
 use Illuminate\Support\Str;
-use Jlorente\PayU\PayU;
+use Jlorente\PayU\PayU as PayUConfig;
+use Jlorente\PayU\PayU\api\Environment;
 use Jlorente\PayU\PayU\api\SupportedLanguages;
 use ReflectionClass;
 
@@ -125,11 +126,12 @@ class PayU
      */
     public function ensurePayUConfig()
     {
-        PayU::$apiKey = $this->apiKey;
-        PayU::$apiLogin = $this->apiLogin;
-        PayU::$merchantId = $this->merchantId;
-        PayU::$language = $this->language;
-        PayU::$isTest = $this->isTest;
+        PayUConfig::$apiKey = $this->apiKey;
+        PayUConfig::$apiLogin = $this->apiLogin;
+        PayUConfig::$merchantId = $this->merchantId;
+        PayUConfig::$language = $this->language;
+        PayUConfig::$isTest = $this->isTest;
+        Environment::$test = $this->isTest;
 
         return $this;
     }
@@ -256,7 +258,7 @@ class PayU
      * @param array $parameters
      * @return mixed A PayU class name to handle static calls.
      */
-    public function __call($method)
+    public function __call($method, $parameters)
     {
         $this->ensurePayUConfig();
 
@@ -272,7 +274,7 @@ class PayU
      */
     protected function getApiInstance($method)
     {
-        $class = "\\Jlorente\\PayU\\PayU\\PayU" . Str::camel($method);
+        $class = "\\Jlorente\\PayU\\PayU\\PayU" . Str::studly($method);
 
         if (class_exists($class) && !(new ReflectionClass($class))->isAbstract()) {
             return $class;
